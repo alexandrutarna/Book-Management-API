@@ -1,4 +1,4 @@
-const { v4: uuidv4 } = require('uuid');
+const { randomUUID } = require('crypto');
 class BookModel {
     constructor() {
         // in-memory storage for books
@@ -10,28 +10,28 @@ class BookModel {
     initializeSampleData() {
         const sampleBooks = [
             {
-                id: uuidv4(),
+                id: randomUUID(),
                 title: 'Hommo Deus',
                 author: 'Yuval Noah Harari',
                 publishedDate: '2015-10-15T00:00:00.000Z',
                 genre: 'Non-Fiction'
             },
             {
-                id: uuidv4(),
+                id: randomUUID(),
                 title: 'Animal Farm',
                 author: 'George Orwell',
                 publishedDate: '1945-08-17T00:00:00.000Z',
                 genre: 'Political Satire'
             },
             {
-                id: uuidv4(),
+                id: randomUUID(),
                 title: 'Rich Dad Poor Dad',
                 author: 'Robert Kiyosaki',
                 publishedDate: '1997-04-01T00:00:00.000Z',
                 genre: 'Personal Finance'
             },
             {
-                id: uuidv4(),
+                id: randomUUID(),
                 title: 'You dont know JS',
                 author: 'Kyle Simpson',
                 publishedDate: '2014-11-17T00:00:00.000Z',
@@ -53,13 +53,13 @@ class BookModel {
     getById(id) {
         console.log('Fetching book with ID:', id);
         // console.log('Current books in storage:', this.books);
-        return this.books.get(id.toString()) || null;
+        return this.books.get(id);
     }
 
     // add a new book
     create(bookData) {
         // todo: take into account the case with number
-        const id = uuidv4();
+        const id = randomUUID();
         const newBook = { id, ...bookData };
         this.books.set(id, newBook);
         return newBook;
