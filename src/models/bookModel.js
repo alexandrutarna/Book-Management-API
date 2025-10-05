@@ -1,3 +1,4 @@
+const { v4: uuidv4 } = require('uuid');
 class BookModel {
     constructor() {
         // in-memory storage for books
@@ -16,8 +17,8 @@ class BookModel {
 
     // add a new book
     create(bookData) {
-        // todo: replace with uuid
-        const id = Date.now().toString(); // simple unique id based on timestamp for now
+        // todo: take into account the case with number
+        const id = uuidv4();
         const newBook = { id, ...bookData };
         this.books.set(id, newBook);
         return newBook;

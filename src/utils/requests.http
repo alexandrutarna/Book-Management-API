@@ -13,7 +13,7 @@ Content-Type: application/json
 GET http://localhost:3000/books
 
 ### GET a specific book by ID
-GET http://localhost:3000/books/1759686524540
+GET http://localhost:3000/books/2d2a8aec-7ea4-4b1e-a4d9-7739d4eafc79
 
 
 
@@ -29,10 +29,10 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:3000/books/1759681370654
+GET http://localhost:3000/books/2d2a8aec-7ea4-4b1e-a4d9-7739d4eafc79
 
 ###
-PUT http://localhost:3000/books/1759686524540
+PUT http://localhost:3000/books/2d2a8aec-7ea4-4b1e-a4d9-7739d4eafc79
 Content-Type: application/json
 
 {
@@ -43,7 +43,7 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:3000/books/1759686534278
+DELETE http://localhost:3000/books/2d2a8aec-7ea4-4b1e-a4d9-7739d4eafc79
 
 
 ### invalid title
@@ -150,3 +150,22 @@ curl -X PUT http://localhost:3000/books/1759686617230 \
         "publishedDate": "2022-05-15",
         "genre": "Non-Fiction"
       }'
+
+
+### Create book 1
+curl -X POST http://localhost:3000/books \
+  -H "Content-Type: application/json" \
+  -d '{"title":"Book 1","author":"Author","publishedDate":"2024-01-01T00:00:00.000Z","genre":"Test"}'
+
+### Create book 2 immediately
+curl -X POST http://localhost:3000/books \
+  -H "Content-Type: application/json" \
+  -d '{"title":"Book 2","author":"Author","publishedDate":"2024-01-01T00:00:00.000Z","genre":"Test"}'
+
+### Create book 3 immediately
+curl -X POST http://localhost:3000/books \
+  -H "Content-Type: application/json" \
+  -d '{"title":"Book 3","author":"Author","publishedDate":"2024-01-01T00:00:00.000Z","genre":"Test"}'
+
+### Get all books to see they all exist
+curl http://localhost:3000/books
