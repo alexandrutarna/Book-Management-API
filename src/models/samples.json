@@ -1,0 +1,30 @@
+[
+  {
+    "id": "b73dc4f3-d319-4592-8c3b-17d8cb969f45",
+    "title": "Hommo Deus",
+    "author": "Yuval Noah Harari",
+    "publishedDate": "2015-10-15T00:00:00.000Z",
+    "genre": "Non-Fiction"
+  },
+  {
+    "id": "f5f2d398-f993-448c-94e7-be6e2d41426c",
+    "title": "Animal Farm",
+    "author": "George Orwell",
+    "publishedDate": "1945-08-17T00:00:00.000Z",
+    "genre": "Political Satire"
+  },
+  {
+    "id": "3275c45e-39d7-4b58-8c33-1dbe72ca2989",
+    "title": "Rich Dad Poor Dad",
+    "author": "Robert Kiyosaki",
+    "publishedDate": "1997-04-01T00:00:00.000Z",
+    "genre": "Personal Finance"
+  },
+  {
+    "id": "6ba4eae5-28ac-44a8-84b4-32291c2a133f",
+    "title": "You dont know JS",
+    "author": "Kyle Simpson",
+    "publishedDate": "2014-11-17T00:00:00.000Z",
+    "genre": "Programming"
+  }
+]

@@ -3,6 +3,45 @@ class BookModel {
     constructor() {
         // in-memory storage for books
         this.books = new Map();
+        this.initializeSampleData();
+    }
+
+    // Initialize with some sample data
+    initializeSampleData() {
+        const sampleBooks = [
+            {
+                id: uuidv4(),
+                title: 'Hommo Deus',
+                author: 'Yuval Noah Harari',
+                publishedDate: '2015-10-15T00:00:00.000Z',
+                genre: 'Non-Fiction'
+            },
+            {
+                id: uuidv4(),
+                title: 'Animal Farm',
+                author: 'George Orwell',
+                publishedDate: '1945-08-17T00:00:00.000Z',
+                genre: 'Political Satire'
+            },
+            {
+                id: uuidv4(),
+                title: 'Rich Dad Poor Dad',
+                author: 'Robert Kiyosaki',
+                publishedDate: '1997-04-01T00:00:00.000Z',
+                genre: 'Personal Finance'
+            },
+            {
+                id: uuidv4(),
+                title: 'You dont know JS',
+                author: 'Kyle Simpson',
+                publishedDate: '2014-11-17T00:00:00.000Z',
+                genre: 'Programming'
+            }
+        ];
+
+        sampleBooks.forEach(book => {
+            this.books.set(book.id, book);
+        });
     }
 
     // get all books
@@ -12,7 +51,9 @@ class BookModel {
 
     // get a book by its id
     getById(id) {
-        return this.books.get(id);
+        console.log('Fetching book with ID:', id);
+        // console.log('Current books in storage:', this.books);
+        return this.books.get(id.toString()) || null;
     }
 
     // add a new book

@@ -13,7 +13,7 @@ Content-Type: application/json
 GET http://localhost:3000/books
 
 ### GET a specific book by ID
-GET http://localhost:3000/books/2d2a8aec-7ea4-4b1e-a4d9-7739d4eafc79
+GET http://localhost:3000/books/33b99c9d-196d-4537-ac8d-6aa94cf1a377
 
 
 
