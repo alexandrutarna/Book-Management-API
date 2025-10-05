@@ -13,7 +13,7 @@ Content-Type: application/json
 GET http://localhost:3000/books
 
 ### GET a specific book by ID
-GET http://localhost:3000/books/1
+GET http://localhost:3000/books/1759686524540
 
 
 
@@ -32,8 +32,9 @@ Content-Type: application/json
 GET http://localhost:3000/books/1759681370654
 
 ###
-PUT http://localhost:3000/books/1
+PUT http://localhost:3000/books/1759686524540
 Content-Type: application/json
+
 {
     "title": "Updated Book Title",
     "author": "John Doe",
@@ -42,7 +43,7 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:3000/books/2
+DELETE http://localhost:3000/books/1759686534278
 
 
 ### invalid title
@@ -129,7 +130,7 @@ curl -X POST http://localhost:3000/books \
 curl http://localhost:3000/books
 
 ### Try to update with invalid data
-curl -X PUT http://localhost:3000/books/1759684028690 \
+curl -X PUT http://localhost:3000/books/1759686617230 \
   -H "Content-Type: application/json" \
   -d '{
     "title": "",
