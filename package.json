@@ -18,5 +18,11 @@
   "bugs": {
     "url": "https://github.com/alexandrutarna/Book-Management-API/issues"
   },
-  "homepage": "https://github.com/alexandrutarna/Book-Management-API#readme"
+  "homepage": "https://github.com/alexandrutarna/Book-Management-API#readme",
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
+  }
 }
