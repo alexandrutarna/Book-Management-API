@@ -1,4 +1,5 @@
 const express = require('express');
+const bookModel = require('./models/bookModel');
 
 const app = express();
 
@@ -13,13 +14,29 @@ app.get('/', (req, res) => {
     res.json({ message: 'Welcome to the Book Management API' });
 });
 
-app.post('/', (req, res) => {
-    res.json({ message: 'Data received', data: req.body });
-    console.log('Received:', req.body);
-    res.json({
-        message: 'got the message',
-        data: req.body
-    })
+app.get('/books', (req, res) => {
+    const books = bookModel.getAll();
+    res.status(200).json(books);
+});
+
+app.get('/books/:id', (req, res) => {
+    const { id } = req.params;
+    const book = bookModel.getById(id);
+
+    if (!book) {
+        return res.status(404).json({
+            status: 404,
+            message: 'Book not found'
+        });
+    }
+
+    res.status(200).json(book);
+});
+
+app.post('/books', (req, res) => {
+    const bookData = req.body;
+    const newBook = bookModel.create(bookData);
+    res.status(201).json(newBook);
 });
 
 // start the server and listen for requests on the specified port
