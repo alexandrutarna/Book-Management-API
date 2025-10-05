@@ -1,0 +1,151 @@
+### POST a new book with valid iso date
+POST http://localhost:3000/books
+Content-Type: application/json
+
+{
+    "title": "Sample Book",
+    "author": "John Doe",
+    "publishedDate": "2023-10-01T00:00:00.000Z",
+    "genre": "Fiction"
+}
+
+### GET all books
+GET http://localhost:3000/books
+
+### GET a specific book by ID
+GET http://localhost:3000/books/1
+
+
+
+###
+POST http://localhost:3000/books
+Content-Type: application/json
+
+{
+    "title": "Another Book",
+    "author": "Jane Smith",
+    "publishedDate": "2022-05-15",
+    "genre": "Non-Fiction"
+}
+
+###
+GET http://localhost:3000/books/1759681370654
+
+###
+PUT http://localhost:3000/books/1
+Content-Type: application/json
+{
+    "title": "Updated Book Title",
+    "author": "John Doe",
+    "publishedDate": "2023-01-01",
+    "genre": "Science Fiction"
+}
+
+###
+DELETE http://localhost:3000/books/2
+
+
+### invalid title
+POST http://localhost:3000/books
+Content-Type: application/json
+
+{
+    "title": " ",
+    "author": "Jane Smith",
+    "publishedDate": "2022-05-15",
+    "genre": "Non-Fiction"
+}
+
+### invalid author
+POST http://localhost:3000/books
+Content-Type: application/json
+
+{
+    "title": "Valid Title",
+    "author": "",
+    "publishedDate": "2022-05-15",
+    "genre": "Non-Fiction"
+}
+
+### invalid publishedDate
+POST http://localhost:3000/books
+Content-Type: application/json
+
+{
+    "title": "Valid Title",
+    "author": "Jane Smith",
+    "publishedDate": "15-05-2022",
+    "genre": "Non-Fiction"
+}
+
+### invalid genre
+POST http://localhost:3000/books
+Content-Type: application/json
+
+{
+    "title": "Valid Title",
+    "author": "Jane Smith",
+    "publishedDate": "2022-05-15",
+    "genre": ""
+}
+
+### missing title: returns 400
+POST http://localhost:3000/books
+Content-Type: application/json
+
+{
+    "author": "Jane Smith",
+    "publishedDate": "2022-05-15",
+    "genre": "Non-Fiction"
+}
+
+### missing multiple fields: returns 400
+POST http://localhost:3000/books
+Content-Type: application/json
+
+{
+    "author": "Jane Smith",
+    "publishedDate": "2022-05-15"
+}
+
+### missing all fields: returns 400
+POST http://localhost:3000/books
+Content-Type: application/json
+
+{
+}
+
+###
+curl -X POST http://localhost:3000/books \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "Valid Book",
+    "author": "Valid Author",
+    "publishedDate": "2024-01-01T00:00:00.000Z",
+    "genre": "Fiction"
+  }'
+
+###
+curl http://localhost:3000/books
+
+### Try to update with invalid data
+curl -X PUT http://localhost:3000/books/1759684028690 \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "",
+    "author": "Test",
+    "publishedDate": "2024-01-01T00:00:00.000Z",
+    "genre": "Test"
+  }'
+
+
+  curl --request POST \
+  --url http://localhost:3000/books \
+  --header 'content-type: application/json' \
+  --header 'user-agent: vscode-restclient' \
+  --data '{
+        "title": "Valid Title",
+        "author": "Jane Smith",
+        "publishedDate": "2022-05-15",
+        "genre": "Non-Fiction"
+      }'

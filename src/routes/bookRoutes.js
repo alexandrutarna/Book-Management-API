@@ -1,5 +1,6 @@
 const express = require('express');
 const bookModel = require('../models/bookModel');
+const { validateBook } = require('../utils/validation');
 
 const router = express.Router();
 
@@ -29,8 +30,18 @@ router.get('/books/:id', (req, res) => {
 // POST (create) a new book
 router.post('/books', (req, res) => {
     const bookData = req.body;
-    const newBook = bookModel.create(bookData);
 
+    // Validate book data before creating
+    const validation = validateBook(bookData);
+    if (!validation.isValid) {
+        return res.status(400).json({
+            status: 400,
+            message: 'Invalid book data',
+            errors: validation.errors
+        });
+    }
+
+    const newBook = bookModel.create(bookData);
     res.status(201).json(newBook);
 });
 
@@ -38,6 +49,17 @@ router.post('/books', (req, res) => {
 router.put('/books/:id', (req, res) => {
     const { id } = req.params;
     const bookData = req.body;
+
+    // Validate book data before updating
+    const validation = validateBook(bookData);
+    if (!validation.isValid) {
+        return res.status(400).json({
+            status: 400,
+            message: 'Invalid book data',
+            errors: validation.errors
+        });
+    }
+
     const updateBook = bookModel.update(id, bookData);
 
     if (!updateBook) {
