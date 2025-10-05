@@ -39,6 +39,36 @@ app.post('/books', (req, res) => {
     res.status(201).json(newBook);
 });
 
+app.put('/books/:id', (req, res) => {
+    const { id } = req.params;
+    const bookData = req.body;
+    const updatedBook = bookModel.update(id, bookData);
+
+    if (!updatedBook) {
+        return res.status(404).json({
+            status: 404,
+            message: 'Book not found'
+        });
+    }
+
+    res.status(200).json(updatedBook);
+});
+
+
+app.delete('/books/:id', (req, res) => {
+    const { id } = req.params;
+    const deletedBook = bookModel.delete(id);
+
+    if (!deletedBook) {
+        return res.status(404).json({
+            status: 404,
+            message: 'Book not found'
+        });
+    }
+
+    res.status(204).send();
+});
+
 // start the server and listen for requests on the specified port
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
