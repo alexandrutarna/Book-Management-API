@@ -1,0 +1,194 @@
+openapi: 3.0.3
+info:
+  title: Book Management API
+  version: "1.0.0"
+  description: Simple REST API for managing books.
+
+servers:
+  - url: http://localhost:3000
+
+paths:
+  /books:
+    get:
+      summary: List all books
+      tags: [Books]
+      responses:
+        '200':
+          description: Array of books
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Book'
+    post:
+      summary: Create a new book
+      tags: [Books]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookCreate'
+      responses:
+        '201':
+          description: Created book
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /books/{id}:
+    parameters:
+      - $ref: '#/components/parameters/BookIdParam'
+    get:
+      summary: Get a book by ID
+      tags: [Books]
+      responses:
+        '200':
+          description: Book found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+    put:
+      summary: Update a book
+      tags: [Books]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookUpdate'
+      responses:
+        '200':
+          description: Updated book
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+    delete:
+      summary: Delete a book
+      tags: [Books]
+      responses:
+        '204':
+          description: Deleted (no content)
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+components:
+  parameters:
+    BookIdParam:
+      name: id
+      in: path
+      required: true
+      description: Book ID (UUID or number)
+      schema:
+        oneOf:
+          - type: string
+            format: uuid
+          - type: integer
+
+  schemas:
+    Book:
+      type: object
+      required: [id, title, author, publishedDate, genre]
+      additionalProperties: false
+      properties:
+        id:
+          description: UUID or numeric identifier
+          oneOf:
+            - type: string
+              format: uuid
+              example: "3f7e8d9a-1b2c-4d5e-9f01-23456789abcd"
+            - type: integer
+              example: 123
+        title:
+          type: string
+          example: "Animal Farm"
+        author:
+          type: string
+          example: "George Orwell"
+        publishedDate:
+          type: string
+          format: date-time
+          description: ISO-8601 string (e.g. 1945-08-17T00:00:00.000Z)
+          example: "1945-08-17T00:00:00.000Z"
+        genre:
+          type: string
+          example: "Political Satire"
+
+    BookCreate:
+      type: object
+      required: [title, author, publishedDate, genre]
+      additionalProperties: false
+      properties:
+        title: { type: string, minLength: 1 }
+        author: { type: string, minLength: 1 }
+        publishedDate:
+          type: string
+          format: date-time
+          description: ISO-8601 string
+        genre: { type: string, minLength: 1 }
+      example:
+        title: "You Don’t Know JS"
+        author: "Kyle Simpson"
+        publishedDate: "2014-11-17T00:00:00.000Z"
+        genre: "Programming"
+
+    BookUpdate:
+      allOf:
+        - $ref: '#/components/schemas/BookCreate'
+
+    Error:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: object
+          required: [code, message]
+          properties:
+            code:
+              type: string
+              example: VALIDATION_ERROR
+            message:
+              type: string
+              example: "Invalid request body"
+            details:
+              type: array
+              items: { type: string }
+              example:
+                - "/publishedDate must match format 'date-time'"
+
+  responses:
+    BadRequest:
+      description: Validation or malformed request
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/Error' }
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/Error' }
+    InternalError:
+      description: Server error
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/Error' }
