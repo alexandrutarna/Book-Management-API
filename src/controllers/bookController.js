@@ -1,52 +1,44 @@
-const bookModel = require('../models/bookModel');
-const { validateBook } = require('../utils/validation');
+import ApiError from '../errors/model.js';
+// import { Service } from '../models/bookModel.js';
+// const { validateBook } = require('../utils/validation');
+import { validateBook } from '../utils/validation.js';
+export default class BookController {
 
-class BookController {
+    constructor(service) {
+        this.service = service;
 
-    /**
-     * Get all books
-     */
+        // Bind methods to the instance to ensure correct 'this' context
+        this.getAllBooks = this.getAllBooks.bind(this);
+        this.getBookById = this.getBookById.bind(this);
+        this.createBook = this.createBook.bind(this);
+        this.updateBook = this.updateBook.bind(this);
+        this.deleteBook = this.deleteBook.bind(this);
+    }
+
     getAllBooks(req, res) {
         try {
-            const books = bookModel.getAll();
+            const books = this.service.getAll();
             res.status(200).json(books);
         } catch (error) {
-            res.status(500).json({
-                status: 500,
-                message: 'Internal Server Error',
-                details: [error.message]
-            });
+            res.status(500).json(new ApiError(500, 'Internal Server Error', [error.message]).toJSON());
         }
     }
 
-    /**
-     * Get a single book by ID
-     */
     getBookById(req, res) {
         try {
             const { id } = req.params;
-            const book = bookModel.getById(id);
+            const book = this.service.getById(id);
 
             if (!book) {
-                return res.status(404).json({
-                    status: 404,
-                    message: 'Book not found'
-                });
+                return res.status(404).json(new ApiError(404, 'Book not found').toJSON());
             }
 
             res.status(200).json(book);
         } catch (error) {
-            res.status(500).json({
-                status: 500,
-                message: 'Internal Server Error',
-                details: [error.message]
-            });
+            res.status(500).json(new ApiError(500, 'Internal Server Error', [error.message]).toJSON());
         }
     }
 
-    /**
-     * Create a new book
-     */
     createBook(req, res) {
         try {
             const bookData = req.body;
@@ -54,27 +46,16 @@ class BookController {
             // validate
             const validation = validateBook(bookData);
             if (!validation.isValid) {
-                return res.status(400).json({
-                    status: 400,
-                    message: 'Validation Failed',
-                    details: validation.errors
-                });
+                return res.status(400).json(new ApiError(400, 'Validation Failed', validation.errors).toJSON());
             }
 
-            const newBook = bookModel.create(bookData);
+            const newBook = this.service.create(bookData);
             res.status(201).json(newBook);
         } catch (error) {
-            res.status(500).json({
-                status: 500,
-                message: 'Internal Server Error',
-                details: [error.message]
-            });
+            res.status(500).json(new ApiError(500, 'Internal Server Error', [error.message]).toJSON());
         }
     }
 
-    /**
-     * Update a book
-     */
     updateBook(req, res) {
         try {
             const { id } = req.params;
@@ -83,57 +64,38 @@ class BookController {
             // validate payload
             const validation = validateBook(bookData);
             if (!validation.isValid) {
-                return res.status(400).json({
-                    status: 400,
-                    message: 'Validation failed',
-                    details: validation.errors
-                });
+                return res.status(400).json(new ApiError(400, 'Validation Failed', validation.errors).toJSON());
             }
 
-            const updatedBook = bookModel.update(id, bookData);
+            const updatedBook = this.service.update(id, bookData);
             if (!updatedBook) {
-                return res.status(404).json({
-                    status: 404,
-                    message: 'Book not found'
-                });
+                return res.status(404).json(new ApiError(404, 'Book not found').toJSON());
             }
 
             res.status(200).json(updatedBook);
         } catch (error) {
-            res.status(500).json({
-                status: 500,
-                message: 'Internal Server Error',
-                details: [error.message]
-            });
+            res.status(500).json(new ApiError(500, 'Internal Server Error', [error.message]).toJSON());
         }
     }
 
-    /**
-     * Delete a book by it's ID
-     */
     deleteBook(req, res) {
         try {
             const { id } = req.params;
-            const deleted = bookModel.delete(id);
+            const deleted = this.service.delete(id);
 
             if (!deleted) {
-                return res.status(404).json({
-                    status: 404,
-                    message: 'Book not found'
-                });
+                return res.status(404).json(new ApiError(404, 'Book not found').toJSON());
             }
 
             res.status(204).send();
         }
         catch (error) {
-            res.status(500).json({
-                status: 500,
-                message: 'Internal Server Error',
-                details: [error.message]
-            });
+            res.status(500).json(new ApiError(500, 'Internal Server Error', [error.message]).toJSON());
         }
     }
 }
 
 // export a singleton instance of the BookController
-module.exports = new BookController();
+// module.exports = new BookController();
+
+// export default new BookController();

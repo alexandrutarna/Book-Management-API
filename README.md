@@ -6,6 +6,9 @@
   - [CI/CD script usage](#cicd-script-usage)
   - [API Documentation](#api-documentation)
   - [Notes](#notes)
+    - [versioning](#versioning)
+    - [security authentication, authorization](#security-authentication-authorization)
+    - [logging](#logging)
 
 ## Setup Instructions
 
@@ -136,3 +139,9 @@
 ## API Documentation
 
 ## Notes
+
+### versioning
+
+### security authentication, authorization
+
+### logging

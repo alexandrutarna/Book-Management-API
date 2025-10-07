@@ -13,7 +13,7 @@ Content-Type: application/json
 GET http://localhost:3000/books
 
 ### GET a specific book by ID
-GET http://localhost:3000/books/33b99c9d-196d-4537-ac8d-6aa94cf1a377
+GET http://localhost:3000/books/a467f621-0e8d-4595-bb34-69a36eaea3ff
 
 
 
@@ -32,7 +32,7 @@ Content-Type: application/json
 GET http://localhost:3000/books/2d2a8aec-7ea4-4b1e-a4d9-7739d4eafc79
 
 ###
-PUT http://localhost:3000/books/2d2a8aec-7ea4-4b1e-a4d9-7739d4eafc79
+PUT http://localhost:3000/books/a44ddc63-97e8-4d11-b9a0-56e08ca811a4
 Content-Type: application/json
 
 {
@@ -43,7 +43,7 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:3000/books/2d2a8aec-7ea4-4b1e-a4d9-7739d4eafc79
+DELETE http://localhost:3000/books/774fe77b-d5be-4381-a799-374a6232a76a
 
 
 ### invalid title
@@ -130,7 +130,7 @@ curl -X POST http://localhost:3000/books \
 curl http://localhost:3000/books
 
 ### Try to update with invalid data
-curl -X PUT http://localhost:3000/books/1759686617230 \
+curl -X PUT http://localhost:3000/books/a467f621-0e8d-4595-bb34-69a36eaea3ff \
   -H "Content-Type: application/json" \
   -d '{
     "title": "",
@@ -139,17 +139,17 @@ curl -X PUT http://localhost:3000/books/1759686617230 \
     "genre": "Test"
   }'
 
-
-  curl --request POST \
-  --url http://localhost:3000/books \
-  --header 'content-type: application/json' \
-  --header 'user-agent: vscode-restclient' \
-  --data '{
-        "title": "Valid Title",
-        "author": "Jane Smith",
-        "publishedDate": "2022-05-15",
-        "genre": "Non-Fiction"
-      }'
+### valid book creation
+curl --request POST \
+--url http://localhost:3000/books \
+--header 'content-type: application/json' \
+--header 'user-agent: vscode-restclient' \
+--data '{
+      "title": "Valid Title",
+      "author": "Jane Smith",
+      "publishedDate": "2022-05-15",
+      "genre": "Non-Fiction"
+    }'
 
 
 ### Create book 1
@@ -169,3 +169,8 @@ curl -X POST http://localhost:3000/books \
 
 ### Get all books to see they all exist
 curl http://localhost:3000/books
+
+###
+curl -X 'GET' \
+  'http://localhost:3000/books' \
+  -H 'accept: application/json'

@@ -3,7 +3,7 @@
  * @param {Object} bookData - The book object to validate.
  * @returns {Object} {isValid: boolean, errors: string[]} - An object containing validation results.
  */
-const validateBook = (bookData) => {
+export const validateBook = (bookData) => {
     const { title, author, publishedDate, genre } = bookData;
     const errors = [];
 
@@ -37,5 +37,3 @@ const validateBook = (bookData) => {
         errors
     };
 };
-
-module.exports = { validateBook };

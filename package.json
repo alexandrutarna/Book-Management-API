@@ -1,6 +1,7 @@
 {
   "name": "book-management-api",
   "version": "1.0.0",
+  "type": "module",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -21,22 +22,12 @@
   },
   "homepage": "https://github.com/alexandrutarna/Book-Management-API#readme",
   "devDependencies": {
+    "@swc/core": "^1.13.5",
+    "@swc/jest": "^0.2.39",
     "jest": "^30.2.0",
     "nodemon": "^3.1.10"
   },
   "dependencies": {
     "express": "^5.1.0"
-  },
-  "jest": {
-    "testEnvironment": "node",
-    "coverageDirectory": "./coverage/",
-    "collectCoverage": true,
-    "collectCoverageFrom": [
-      "src/**/*.js",
-      "!src/server.js"
-    ],
-    "testMatch": [
-      "**/tests/**/*.test.js"
-    ]
   }
 }

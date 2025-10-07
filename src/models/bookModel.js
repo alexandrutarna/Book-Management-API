@@ -1,5 +1,18 @@
-const { randomUUID } = require('crypto');
-class BookModel {
+// const { randomUUID } = require('crypto');
+import { randomUUID } from 'crypto';
+
+// just a data class
+export class Book {
+    constructor(id, title, author, publishedDate, genre) {
+        this.id = id;
+        this.title = title;
+        this.author = author;
+        this.publishedDate = publishedDate;
+        this.genre = genre;
+    }
+}
+
+export class Service {
     constructor() {
         // in-memory storage for books
         this.books = new Map();
@@ -60,7 +73,7 @@ class BookModel {
     create(bookData) {
         // todo: take into account the case with number
         const id = randomUUID();
-        const newBook = { id, ...bookData };
+        const newBook = new Book(id, bookData.title, bookData.author, bookData.publishedDate, bookData.genre);
         this.books.set(id, newBook);
         return newBook;
     }
@@ -70,7 +83,8 @@ class BookModel {
         if (!this.books.has(id)) {
             return null;
         }
-        const updatedBook = { id, ...bookData };
+        // const updatedBook = { id, ...bookData };
+        const updatedBook = new Book(id, bookData.title, bookData.author, bookData.publishedDate, bookData.genre);
         this.books.set(id, updatedBook);
         return updatedBook;
     }
@@ -82,4 +96,6 @@ class BookModel {
 }
 
 // export a singleton instance of the BookModel
-module.exports = new BookModel();
+// module.exports = new BookModel();
+
+// export default new Service();

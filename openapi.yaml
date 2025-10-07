@@ -29,7 +29,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/BookCreate'
+              $ref: '#/components/schemas/BookInput'
       responses:
         '201':
           description: Created book
@@ -67,7 +67,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/BookUpdate'
+              $ref: '#/components/schemas/BookInput'
       responses:
         '200':
           description: Updated book
@@ -133,8 +133,7 @@ components:
         genre:
           type: string
           example: "Political Satire"
-
-    BookCreate:
+    BookInput:
       type: object
       required: [title, author, publishedDate, genre]
       additionalProperties: false
@@ -146,35 +145,15 @@ components:
           format: date-time
           description: ISO-8601 string
         genre: { type: string, minLength: 1 }
-      example:
-        title: "You Don’t Know JS"
-        author: "Kyle Simpson"
-        publishedDate: "2014-11-17T00:00:00.000Z"
-        genre: "Programming"
-
-    BookUpdate:
-      allOf:
-        - $ref: '#/components/schemas/BookCreate'
-
     Error:
       type: object
-      required: [error]
+      required: [status, message]
       properties:
-        error:
-          type: object
-          required: [code, message]
-          properties:
-            code:
-              type: string
-              example: VALIDATION_ERROR
-            message:
-              type: string
-              example: "Invalid request body"
-            details:
-              type: array
-              items: { type: string }
-              example:
-                - "/publishedDate must match format 'date-time'"
+        status:  { type: integer }
+        message: { type: string }
+        details:
+          type: array
+          items: { type: string }
 
   responses:
     BadRequest:
@@ -182,13 +161,35 @@ components:
       content:
         application/json:
           schema: { $ref: '#/components/schemas/Error' }
+          example:               # <-- response-specific examples
+            missingTitle:
+              summary: Missing title
+              value:
+                status: 400
+                message: Validation Failed
+                details:
+                  - "title is required and must be a non-empty string"
     NotFound:
       description: Resource not found
       content:
         application/json:
           schema: { $ref: '#/components/schemas/Error' }
+          example:
+            bookNotFound:
+              summary: Book not found
+              value:
+                status: 404
+                message: Book with the specified ID does not exist
     InternalError:
-      description: Server error
+      description: Internal Server error
       content:
         application/json:
           schema: { $ref: '#/components/schemas/Error' }
+          example:
+            internalError:
+              summary: Internal server error
+              value:
+                status: 500
+                message: An unexpected error occurred
+                details:
+                  - "Error stack trace or additional context"
