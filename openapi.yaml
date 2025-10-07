@@ -29,7 +29,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/BookCreate'
+              $ref: '#/components/schemas/BookInput'
       responses:
         '201':
           description: Created book
@@ -67,7 +67,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/BookUpdate'
+              $ref: '#/components/schemas/BookInput'
       responses:
         '200':
           description: Updated book
@@ -133,8 +133,7 @@ components:
         genre:
           type: string
           example: "Political Satire"
-
-    BookCreate:
+    BookInput:
       type: object
       required: [title, author, publishedDate, genre]
       additionalProperties: false
@@ -152,10 +151,6 @@ components:
         publishedDate: "2014-11-17T00:00:00.000Z"
         genre: "Programming"
 
-    BookUpdate:
-      allOf:
-        - $ref: '#/components/schemas/BookCreate'
-
     Error:
       type: object
       required: [error]
@@ -166,15 +161,11 @@ components:
           properties:
             code:
               type: string
-              example: VALIDATION_ERROR
             message:
               type: string
-              example: "Invalid request body"
             details:
               type: array
               items: { type: string }
-              example:
-                - "/publishedDate must match format 'date-time'"
 
   responses:
     BadRequest:
@@ -182,13 +173,29 @@ components:
       content:
         application/json:
           schema: { $ref: '#/components/schemas/Error' }
+          example:
+            error:
+              code: 400
+              message: "Invalid request data"
+              details:
+                - "title: must be at least 1 character long"
+                - "publishedDate: must be a valid ISO-8601 date string"
     NotFound:
       description: Resource not found
       content:
         application/json:
           schema: { $ref: '#/components/schemas/Error' }
+          example:
+            error:
+              code: 404
+              message: "Book with ID '3f7e8d9a-1b2c-4d5e-9f01-23456789abcd' not found"
     InternalError:
       description: Server error
       content:
         application/json:
           schema: { $ref: '#/components/schemas/Error' }
+          example:
+            error:
+              code: 500
+              message: "Internal server error"
+              details: [ "Unexpected error occurred" ]

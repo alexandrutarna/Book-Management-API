@@ -11,19 +11,13 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Root endpoint
-app.get('/', (req, res) => {
-    res.json({
-        message: 'Book Management API',
-        version: '1.0.0',
-        endpoints: {
-            'GET /books': 'Retrieve all books',
-            'GET /books/:id': 'Retrieve a book by ID',
-            'POST /books': 'Create a new book',
-            'PUT /books/:id': 'Update an existing book by ID',
-            'DELETE /books/:id': 'Delete a book by ID'
-        }
-    });
+// enable CORS for all routes and origins
+// just for demo purpose, to make openapi spec working with tryout feature
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    next();
 });
 
 // Mount book routes
