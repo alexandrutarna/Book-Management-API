@@ -1,10 +1,6 @@
-// const bookController = require('../../src/controllers/bookController');
-// const bookModel = require('../../src/models/bookModel.js');
-// const { validateBook } = require('../../src/utils/validation.js');
 import { jest, describe, it, expect, beforeEach } from '@jest/globals'
 import BookController from '../../src/controllers/bookController.js'
 import { Service } from '../../src/models/bookModel.js'
-// import { validateBook } from '../../src/utils/validation.js';
 
 describe('BookController', () => {
     let req, res, service, controller

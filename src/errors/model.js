@@ -1,4 +1,3 @@
-// error class
 export class ApiError {
     constructor(statusCode, message, details = []) {
         this.statusCode = statusCode;
@@ -15,7 +14,4 @@ export class ApiError {
     }
 }
 
-
-// export the ApiError class
-// module.exports = ApiError;
 export default ApiError;

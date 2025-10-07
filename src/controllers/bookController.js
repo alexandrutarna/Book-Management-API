@@ -1,6 +1,4 @@
 import ApiError from '../errors/model.js';
-// import { Service } from '../models/bookModel.js';
-// const { validateBook } = require('../utils/validation');
 import { validateBook } from '../utils/validation.js';
 export default class BookController {
 
@@ -94,8 +92,3 @@ export default class BookController {
         }
     }
 }
-
-// export a singleton instance of the BookController
-// module.exports = new BookController();
-
-// export default new BookController();

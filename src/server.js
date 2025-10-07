@@ -1,11 +1,7 @@
-// const express = require('express');
-// const bookModel = require('./models/bookModel.js');
-// const bookRoutes = require('./routes/bookRoutes');
 import express from 'express';
 import { Service } from './models/bookModel.js';
 import BookController from './controllers/bookController.js';
 import makeBookRoutes from './routes/bookRoutes.js';
-// import bookRoutes from './routes/bookRoutes.js';
 
 const app = express();
 
