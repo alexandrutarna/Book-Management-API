@@ -22,13 +22,32 @@ echo "==> npm ci"
 npm ci                             # reproducible, clean install using package-lock.json (prefer over npm install in CI)
 
 echo "==> npm test"
-npm test
+if ! npm test; then
+    echo "❌ TESTS FAILED - CI pipeline stopped"
+    exit 1
+fi
+echo "✅ All tests passed"
 
 echo "==> docker build ${IMAGE_NAME}:${IMAGE_TAG}"
 docker build -t "${IMAGE_NAME}:${IMAGE_TAG}" .
 
 # Ensure no name clash from previous runs, then start fresh
 cleanup
+
+# Kill any process using port 3000 to avoid conflicts
+echo "==> checking port ${PORT}"
+if lsof -ti:${PORT} >/dev/null 2>&1; then
+    echo "==> killing process on port ${PORT}"
+    lsof -ti:${PORT} | xargs kill -9 >/dev/null 2>&1 || true
+    sleep 1
+fi
+
+# Stop any containers that might be using port 3000
+if docker ps >/dev/null 2>&1; then
+    docker ps --filter "publish=${PORT}" --format "{{.Names}}" | xargs -r docker stop >/dev/null 2>&1 || true
+else
+    echo "==> Docker daemon not running, skipping container check"
+fi
 
 echo "==> docker run (port ${PORT})"
 docker run -d --name "${CONTAINER_NAME}" -p "${PORT}:3000" "${IMAGE_NAME}:${IMAGE_TAG}" >/dev/null
@@ -38,7 +57,7 @@ docker run -d --name "${CONTAINER_NAME}" -p "${PORT}:3000" "${IMAGE_NAME}:${IMAG
 
 echo -n "==> wait for app"
 for i in {1..30}; do
-  if curl -fs "http://localhost:${HOST_PORT:-3000}/books" >/dev/null 2>&1; then
+  if curl -fs "http://localhost:${PORT}/books" >/dev/null 2>&1; then
     printf "\n==> GET /books OK\n"
     exit 0
   fi

@@ -2,18 +2,15 @@
 
 - [Book-Management-API](#book-management-api)
   - [Setup Instructions](#setup-instructions)
-  - [How to run API locally (with Docker)](#how-to-run-api-locally-with-docker)
-  - [How to run tests](#how-to-run-tests)
-  - [CI/CD script usage](#cicd-script-usage)
-  - [API Documentation](#api-documentation)
-  - [Notes](#notes)
+    - [What it does](#what-it-does)
+    - [Testing failures](#testing-failures)
 
 ## Setup Instructions
 
 1. Clone the repository:
 
    ```bash
-   git clone
+   git clone https://github.com/alexandrutarna/Book-Management-API.git
     ```
 
 2. Navigate to the project directory:
@@ -28,9 +25,13 @@
     npm install
     ```
 
-4. todo: Set up environment variables:
+4. Start the server:
 
-    todo: Create a `.env` file in the root directory and add the necessary environment variables.
+    ```bash
+    npm start
+    ```
+
+5. The server will run on `http://localhost:3000` by default.
 
 ## How to run API locally (with Docker)
 
@@ -60,7 +61,7 @@
 
     ```
 
-3. Access the API at `http://localhost:3000` (or the port specified in your `.env` file).
+3. Access the API at `http://localhost:3000`  
 
 4. Test the API endpoints using curl:
     - Get all books:
@@ -128,19 +129,36 @@
 
 ## CI/CD script usage
 
-1. Ensure you have the necessary permissions to execute the script.
-2. Make the script executable (if not already):
+The `ci.sh` script automates the full pipeline: install dependencies, run tests, build Docker image, and smoke test the API.
 
-    ```bash
-    chmod +x ci.sh
-    ```
+### Quick Start
 
-3. Run the CI/CD script:
+```bash
+# Make executable and run
+chmod +x ci.sh
+./ci.sh
 
-    ```bash
-    ./ci.sh
-    ```
+# Or with custom tag
+./ci.sh my-tag
+```
 
-## API Documentation
+### What it does
 
-## Notes
+1. `npm ci` - Clean dependency install
+2. `npm test` - Run tests with coverage  
+3. `docker build` - Create Docker image
+4. **Port cleanup** - Automatically handles port 3000 conflicts
+5. `docker run` - Start container for testing
+6. Smoke test/ Health check - Verify `/books` endpoint works
+7. Auto cleanup - Remove test containers (runs automatically on script exit, success or failure)
+
+### Testing failures
+
+To verify the CI fails properly when tests break:
+
+1. **Break a test** in `tests/controllers/bookController.unit.test.js` (e.g., change an expected value)
+2. **Run CI** - `./ci.sh`
+3. **Should fail** at the test stage with `❌ TESTS FAILED - CI pipeline stopped`
+4. **Fix the test** and run again to verify it passes
+
+**Note**: Missing lint checks from original requirements - can be added with `npm run lint`.
