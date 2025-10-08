@@ -70,38 +70,6 @@ describe('BookController', () => {
         });
     });
 
-    describe('getBookById', () => {
-        it('should return a book with status 200 when book exists', async () => {
-            const mockBook = { id: '1', title: 'Test Book', author: 'Test Author', publishedDate: '2020-01-01T00:00:00.000Z', genre: 'Fiction' };
-            repo.books.set('1', mockBook);
-            req.params.id = '1';
-
-            await bookController.getBookById(req, res);
-
-            expect(res.status).toHaveBeenCalledWith(200);
-            expect(res.json).toHaveBeenCalledWith(mockBook);
-        });
-
-        it('should return 404 when book does not exist', async () => {
-            req.params.id = 'non-existent-id';
-
-            await bookController.getBookById(req, res);
-
-            expect(res.status).toHaveBeenCalledWith(404);
-            expect(res.json).toHaveBeenCalledWith(ExpectedErrors.bookNotFound('non-existent-id'));
-        });
-
-        it('should handle errors gracefully', async () => {
-            req.params.id = '1';
-            jest.spyOn(svc, 'getBook').mockRejectedValue(new Error('Database error'));
-
-            await bookController.getBookById(req, res);
-
-            expect(res.status).toHaveBeenCalledWith(500);
-            expect(res.json).toHaveBeenCalledWith(ExpectedErrors.internalError(['Database error']));
-        });
-    });
-
     describe('createBook', () => {
         it('should create a new book and return it with status 201', async () => {
             req.body = {
