@@ -1,4 +1,5 @@
 # Book-Management-API
+
 - [Book-Management-API](#book-management-api)
   - [Setup Instructions](#setup-instructions)
   - [How to run API locally (with Docker)](#how-to-run-api-locally-with-docker)
@@ -39,7 +40,7 @@
     cd Book-Management-API
      ```
 
-2. Build and run the Docker containers:
+2. Build and run the Docker container:
 
     ```bash
     # build the docker image with tag book-management-api
@@ -48,14 +49,14 @@
     # check if the image is created
     docker images | grep book-management-api
 
+    # If a container with name 'book-api' already exists, remove it first:
+    # docker stop book-api && docker rm book-api
+
     # run the docker container with name book-api
     docker run -d -p 3000:3000 --name book-api book-management-api 
 
-    # Stop the container
-    docker stop book-api
-
-    # Remove the container
-    docker rm book-api
+    # Check if container is running
+    docker ps | grep book-api
 
     ```
 
@@ -92,10 +93,17 @@
     curl -X DELETE http://localhost:3000/books/{id}
     ```
 
-5. To stop the containers, run:
+5. To stop and clean up the container when finished:
 
     ```bash
-    docker-compose down
+    # Stop the container
+    docker stop book-api
+
+    # Remove the container
+    docker rm book-api
+
+    # Optional: Remove the image if no longer needed
+    docker rmi book-management-api
     ```
 
 ## How to run tests
