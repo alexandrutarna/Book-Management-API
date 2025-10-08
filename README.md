@@ -2,68 +2,72 @@
 
 - [Book-Management-API](#book-management-api)
   - [Setup Instructions](#setup-instructions)
+  - [How to run API locally (with Docker)](#how-to-run-api-locally-with-docker)
+  - [How to run tests](#how-to-run-tests)
+  - [CI/CD script usage](#cicd-script-usage)
+    - [Quick Start](#quick-start)
     - [What it does](#what-it-does)
     - [Testing failures](#testing-failures)
 
 ## Setup Instructions
 
-1. Clone the repository:
+  1. Clone the repository:
 
-   ```bash
-   git clone https://github.com/alexandrutarna/Book-Management-API.git
-    ```
+     ```bash
+     git clone https://github.com/alexandrutarna/Book-Management-API.git
+      ```
 
-2. Navigate to the project directory:
+  2. Navigate to the project directory:
 
-    ```bash
-    cd Book-Management-API
-     ```
+      ```bash
+      cd Book-Management-API
+       ```
 
-3. Install dependencies:
+  3. Install dependencies:
 
-    ```bash
-    npm install
-    ```
+      ```bash
+      npm install
+      ```
 
-4. Start the server:
+  4. Start the server:
 
-    ```bash
-    npm start
-    ```
+      ```bash
+      npm start
+      ```
 
-5. The server will run on `http://localhost:3000` by default.
+  5. The server will run on `http://localhost:3000` by default.
 
 ## How to run API locally (with Docker)
 
-1. Navigate to the project directory:
+  1. Navigate to the project directory:
 
-    ```bash
-    cd Book-Management-API
-     ```
+      ```bash
+      cd Book-Management-API
+       ```
 
-2. Build and run the Docker container:
+  2. Build and run the Docker container:
 
-    ```bash
-    # build the docker image with tag book-management-api
-    docker build -t book-management-api . 
+      ```bash
+      # build the docker image with tag book-management-api
+      docker build -t book-management-api . 
 
-    # check if the image is created
-    docker images | grep book-management-api
+      # check if the image is created
+      docker images | grep book-management-api
 
-    # If a container with name 'book-api' already exists, remove it first:
-    # docker stop book-api && docker rm book-api
+      # If a container with name 'book-api' already exists, remove it first:
+      # docker stop book-api && docker rm book-api
 
-    # run the docker container with name book-api
-    docker run -d -p 3000:3000 --name book-api book-management-api 
+      # run the docker container with name book-api
+      docker run -d -p 3000:3000 --name book-api book-management-api 
 
-    # Check if container is running
-    docker ps | grep book-api
+      # Check if container is running
+      docker ps | grep book-api
 
-    ```
+      ```
 
-3. Access the API at `http://localhost:3000`  
+1. Access the API at `http://localhost:3000`  
 
-4. Test the API endpoints using curl:
+2. Test the API endpoints using curl:
     - Get all books:
   
     ```bash
@@ -94,7 +98,7 @@
     curl -X DELETE http://localhost:3000/books/{id}
     ```
 
-5. To stop and clean up the container when finished:
+3. To stop and clean up the container when finished:
 
     ```bash
     # Stop the container
