@@ -160,12 +160,15 @@ components:
           required: [code, message]
           properties:
             code:
-              type: string
+              type: integer
+              example: 400
             message:
               type: string
+              example: "Invalid request data"
             details:
               type: array
               items: { type: string }
+              example: [ "title: must be at least 1 character long" ]
 
   responses:
     BadRequest:
