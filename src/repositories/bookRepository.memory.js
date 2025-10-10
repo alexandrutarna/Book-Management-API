@@ -1,4 +1,5 @@
 const { randomUUID } = require('crypto');
+
 const Port = require('./bookRepository.port');
 
 class InMemoryBookRepository extends Port {
@@ -22,7 +23,7 @@ class InMemoryBookRepository extends Port {
     }
     async update(id, partial) {
         const ex = this.books.get(id);
-        if (!ex) return null;
+        if (!ex) {return null;}
         const updated = { ...ex, ...partial, id };
         this.books.set(id, updated);
         return updated;

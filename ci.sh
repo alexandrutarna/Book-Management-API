@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 # Minimal CI script: install deps, run tests, build image, smoke-test /books, clean up.
 
+KEEP_CONTAINER=${KEEP_CONTAINER:-0}
+
+
 set -Eeuo pipefail
 # -E: ERR trap is inherited by functions/subshells
 # -e: exit immediately on any error (non-zero status)
@@ -14,12 +17,21 @@ PORT=3000
 
 cleanup() {
   # Remove the test container if it exists; ignore errors
-  docker rm -f "$CONTAINER_NAME" >/dev/null 2>&1 || true
+  # Remove the test container only if not keeping it
+  if [ "$KEEP_CONTAINER" != "1" ]; then
+    docker rm -f "$CONTAINER_NAME" >/dev/null 2>&1 || true
+  fi
 }
 trap cleanup EXIT                 # always run cleanup on script exit (success or failure)
 
 echo "==> npm ci"
 npm ci                             # reproducible, clean install using package-lock.json (prefer over npm install in CI)
+
+echo "==> npm run lint"
+if ! npm run -s lint -- ;then
+  echo "❌ Lint failed"; exit 1
+fi
+echo "✅ Lint passed"
 
 echo "==> npm test"
 if ! npm test; then
@@ -59,6 +71,7 @@ echo -n "==> wait for app"
 for i in {1..30}; do
   if curl -fs "http://localhost:${PORT}/books" >/dev/null 2>&1; then
     printf "\n==> GET /books OK\n"
+    KEEP_CONTAINER=1   # keep it running after success
     exit 0
   fi
   printf "."

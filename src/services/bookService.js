@@ -1,5 +1,6 @@
-const Book = require('../models/bookModel');
 const { randomUUID } = require('crypto');
+
+const Book = require('../models/bookModel');
 
 class BookService {
     constructor(bookRepo) {

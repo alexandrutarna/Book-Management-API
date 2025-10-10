@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 const InMemoryBookRepository = require('../repositories/bookRepository.memory');
+
 const BookService = require('./bookService');
 
 const seedPath = path.join(__dirname, '..', 'models', 'samples.json');

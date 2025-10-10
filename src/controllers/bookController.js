@@ -16,7 +16,7 @@ class BookController {
         try {
             const { id } = req.params;
             const book = await bookService.getBook(id);
-            if (!book) return ErrorResponses.bookNotFound(res, id);
+            if (!book) {return ErrorResponses.bookNotFound(res, id);}
             res.status(200).json(book);
         } catch (error) {
             ErrorResponses.internalError(res, 'Internal server error', [error.message]);
@@ -44,7 +44,7 @@ class BookController {
                 return ErrorResponses.validationFailed(res, validation.errors);
             }
             const updatedBook = await bookService.updateBook(id, req.body);
-            if (!updatedBook) return ErrorResponses.bookNotFound(res, id);
+            if (!updatedBook) {return ErrorResponses.bookNotFound(res, id);}
             res.status(200).json(updatedBook);
         } catch (error) {
             ErrorResponses.internalError(res, 'Internal server error', [error.message]);
@@ -55,7 +55,7 @@ class BookController {
         try {
             const { id } = req.params;
             const deleted = await bookService.deleteBook(id);
-            if (!deleted) return ErrorResponses.bookNotFound(res, id);
+            if (!deleted) {return ErrorResponses.bookNotFound(res, id);}
             res.status(204).send();
         } catch (error) {
             ErrorResponses.internalError(res, 'Internal server error', [error.message]);

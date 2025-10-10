@@ -15,7 +15,6 @@ describe('BookController (unit)', () => {
             deleteBook: jest.fn(),
         };
 
-        // Import error helpers
         const { ExpectedErrors: ErrorHelpers } = require('../helpers/errorHelpers');
         ExpectedErrors = ErrorHelpers;
 
@@ -24,7 +23,6 @@ describe('BookController (unit)', () => {
             bookService: mockBookService,
         }));
 
-        // Mock validation util
         const validateBookMock = jest.fn();
         jest.doMock('../../src/utils/validation', () => ({
             validateBook: validateBookMock,

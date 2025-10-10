@@ -149,12 +149,13 @@ chmod +x ci.sh
 ### What it does
 
 1. `npm ci` - Clean dependency install
-2. `npm test` - Run tests with coverage  
-3. `docker build` - Create Docker image
-4. **Port cleanup** - Automatically handles port 3000 conflicts
-5. `docker run` - Start container for testing
-6. Smoke test/ Health check - Verify `/books` endpoint works
-7. Auto cleanup - Remove test containers (runs automatically on script exit, success or failure)
+2. `npm run lint` - Run linting
+3. `npm test` - Run tests with coverage  
+4. `docker build` - Create Docker image
+5. **Port cleanup** - Automatically handles port 3000 conflicts
+6. `docker run` - Start container for testing
+7. Smoke test/ Health check - Verify `/books` endpoint works
+8. Auto cleanup - Remove test containers (runs automatically on script exit, success or failure)
 
 ### Testing failures
 
@@ -165,4 +166,4 @@ To verify the CI fails properly when tests break:
 3. **Should fail** at the test stage with `❌ TESTS FAILED - CI pipeline stopped`
 4. **Fix the test** and run again to verify it passes
 
-**Note**: Missing lint checks from original requirements - can be added with `npm run lint`.
+**Note**:
